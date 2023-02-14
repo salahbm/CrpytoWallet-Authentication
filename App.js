@@ -20,7 +20,7 @@ const App = () => {
       'https://eth-goerli.g.alchemy.com/v2/9fNSQ8sQ7nVqaeqeZeK5ELbs7mW-R3gA',
     ),
   );
-
+  console.log(loggedInUser);
   useEffect(() => {
     // Check if there's a logged-in user
     const checkLoggedInUser = async () => {

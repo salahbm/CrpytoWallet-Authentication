@@ -6,62 +6,83 @@ import {Data} from '../App';
 const SettingsScreen = ({navigation}) => {
   const {handleLogout, wallet} = useContext(Data);
   const {network, toggleNetwork, netColor} = useContext(NetworkContext);
-  const connection = new ethers.providers.JsonRpcProvider(
-    'https://eth-goerli.g.alchemy.com/v2/NmShLyLunzQEWmshUdHRDRRWReqIhmAR',
-  );
-
-  async function sendTransaction() {
-    // console.log(wallet);
-
-    // Sua/ccess code
-
-    const gasPrice = await connection.getGasPrice();
-    const signer = new ethers.Wallet(wallet.privateKey);
-    const tx = {
-      from: '0x94Ca3834dA61b871016504200B78304cBea13D5b',
-      to: '0xcC47683Be51eBD6E2b090A7f2B013C9bBa328F13',
-      value: ethers.utils.parseUnits('0.01', 'ether'),
-      gasPrice: gasPrice,
-      // gasPrice: ethers.utils.hexlify(20000000000),
-      gasLimit: ethers.utils.hexlify(100000),
-      nonce: await connection.getTransactionCount(wallet?.address, 'latest'),
-    };
-
-    const signed = await signer.signTransaction(tx);
-    const transaction = await connection.sendTransaction(signed);
-
-    console.log('pending');
-    // const pending = await transaction.wait();
-
-    console.log('Succesfully sent');
-  }
 
   return (
     <View style={styles.container}>
-      <Text style={{color: 'white'}}>Settings</Text>
+      <View style={styles.optionContainer}>
+        <Text style={styles.optionTitle}>Security</Text>
+        <View style={styles.option}>
+          <Text style={styles.optionText}>Change Password</Text>
+        </View>
+        <View style={styles.option}>
+          <Text style={styles.optionText}>Two-Factor Authentication</Text>
+        </View>
+        <View style={styles.option}>
+          <Text style={styles.optionText}>PIN Settings</Text>
+        </View>
+      </View>
+      <View style={styles.optionContainer}>
+        <Text style={styles.optionTitle}>Support</Text>
+        <View style={styles.option}>
+          <Text style={styles.optionText}>Contact Us</Text>
+        </View>
+        <View style={styles.option}>
+          <Text style={styles.optionText}>FAQs</Text>
+        </View>
+      </View>
+      <View style={styles.optionContainer}>
+        <Text style={styles.optionTitle}>General</Text>
+        <TouchableOpacity onPress={toggleNetwork} style={styles.option}>
+          <Text style={styles.optionText}>Network</Text>
+          <Text style={[styles.optionSubtext, {color: netColor}]}>
+            {network}
+          </Text>
+        </TouchableOpacity>
 
-      <TouchableOpacity onPress={sendTransaction}>
-        <Text style={{color: 'green'}}>send</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={handleLogout}>
-        <Text style={{color: 'red'}}>log out</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={toggleNetwork}>
-        <Text style={{color: 'yellow'}}>toggleNetwork</Text>
-      </TouchableOpacity>
-      <Text style={{color: netColor}}>{network}</Text>
+        <TouchableOpacity onPress={handleLogout} style={styles.option}>
+          <Text style={[styles.optionText, styles.logoutText]}>Log Out</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
 
-export default SettingsScreen;
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    padding: 20,
+    backgroundColor: '#FFFFFF',
+  },
+  optionContainer: {
+    marginBottom: 20,
+  },
+  optionTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  option: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: 'black',
-    gap: 30,
+    height: 50,
+    paddingHorizontal: 10,
+    backgroundColor: '#F8F8F8',
+    borderRadius: 10,
+    marginBottom: 10,
+  },
+  optionText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    // color: '#000000',
+  },
+  optionSubtext: {
+    fontSize: 14,
+    color: '#007AFF',
+  },
+  logoutText: {
+    color: '#FF4D4D',
   },
 });
+
+export default SettingsScreen;

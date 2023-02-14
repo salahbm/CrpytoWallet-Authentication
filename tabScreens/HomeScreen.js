@@ -1,69 +1,91 @@
 import React, {useContext} from 'react';
 import {Data} from '../App';
 import {View, Text, StyleSheet} from 'react-native';
+
 const HomeScreen = () => {
   const {loggedInUser, totalCoin, tokenUSD} = useContext(Data);
+
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>HomeScreen UI</Text>
+      <View style={styles.header}>
+        <Text style={styles.heading}>Home</Text>
+        <Text style={styles.headerText}>Activity</Text>
+      </View>
       <View style={styles.row}>
-        <Text style={styles.label}>Username:</Text>
+        <View style={styles.labelContainer}>
+          <Text style={styles.label}>Username</Text>
+        </View>
         <Text style={styles.value}>{loggedInUser?.username}</Text>
       </View>
       <View style={styles.row}>
-        <Text style={styles.label}>Wallet Address:</Text>
+        <View style={styles.labelContainer}>
+          <Text style={styles.label}>Wallet Address</Text>
+        </View>
         <Text
           ellipsizeMode="middle"
           numberOfLines={1}
-          style={styles.value_address}>
+          style={styles.valueAddress}>
           {loggedInUser?.address}
         </Text>
       </View>
       <View style={styles.row}>
-        <Text style={styles.label}>Wallet Balance:</Text>
-        <Text style={styles.value}>${tokenUSD} </Text>
+        <View style={styles.labelContainer}>
+          <Text style={styles.label}>Wallet Balance</Text>
+        </View>
+        <Text style={styles.value}>${tokenUSD}</Text>
       </View>
       <View style={styles.row}>
-        <Text style={styles.label}>Total Coin:</Text>
-        <Text style={styles.value}>{totalCoin}ETH</Text>
+        <View style={styles.labelContainer}>
+          <Text style={styles.label}>Total Coin</Text>
+        </View>
+        <Text style={styles.value}>{totalCoin} ETH</Text>
       </View>
     </View>
   );
 };
 
-export default HomeScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#222',
     padding: 20,
+    backgroundColor: '#ffffff',
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    justifyContent: 'center',
+    marginBottom: 20,
   },
   heading: {
-    fontFamily: 'Arial',
-    fontSize: 30,
-    color: '#fff',
-    marginBottom: 20,
+    fontSize: 28,
+    fontWeight: 'bold',
+  },
+  headerText: {
+    fontSize: 16,
+    color: '#007AFF',
   },
   row: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 10,
+    marginVertical: 12,
+  },
+  labelContainer: {
+    marginEnd: 10,
+    width: 150,
   },
   label: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: 'bold',
-    color: '#fff',
-    marginRight: 10,
   },
   value: {
-    fontSize: 18,
-    color: '#fff',
+    fontSize: 16,
+    color: '#007AFF',
   },
-  value_address: {
-    fontSize: 18,
-    color: '#fff',
-    width: 100,
+  valueAddress: {
+    fontSize: 16,
+    color: 'green',
+    width: 150,
   },
 });
+
+export default HomeScreen;
